@@ -260,58 +260,7 @@ apt-get $APT_PROXY_OPTION -y install gcc git
 # -----------------------------------------------------------------------------
 # environment check
 # -----------------------------------------------------------------------------
-# external ip
-out <<< "checking the external IP..."
-EXTERNAL_IP=$(dig -4 +short myip.opendns.com a @resolver1.opendns.com) || true
-if [[ -z "$EXTERNAL_IP" ]]; then
-    out <<EOF
-Aborted! The external IP not found
-Recommendation: Check if myip.opendns.com is accessible
-EOF
-    exit 1
-fi
 
-# jitsi host A record
-out <<< "checking DNS record for $JITSI_HOST..."
-IP=$(dig -4 +short $JITSI_HOST @resolver1.opendns.com | tail -1) || true
-if [[ -z "$IP" ]]; then
-    out <<EOF
-Aborted! $JITSI_HOST is not resolvable on Internet
-Recommendation: Set DNS A record for $JITSI_HOST on a public DNS
-EOF
-    exit 1
-fi
-
-# jitsi ip == external ip
-out <<< "checking $JITSI_HOST resolved IP..."
-if [[ "$IP" != "$EXTERNAL_IP" ]]; then
-    out <<EOF
-Aborted! $JITSI_HOST does not point to this server: $EXTERNAL_IP <> $IP
-Recommendation: Set $EXTERNAL_IP as $JITSI_HOST A record
-EOF
-    exit 1
-fi
-
-# turn host A record
-out <<< "checking DNS record for $TURN_HOST..."
-IP=$(dig -4 +short $TURN_HOST @resolver1.opendns.com | tail -1) || true
-if [[ -z "$IP" ]]; then
-    out <<EOF
-Aborted! $TURN_HOST is not resolvable on Internet
-Recommendation: Set DNS CNAME or A record for $TURN_HOST on a public DNS
-EOF
-    exit 1
-fi
-
-# turn ip == external ip
-out <<< "checking $TURN_HOST resolved IP..."
-if [[ "$IP" != "$EXTERNAL_IP" ]]; then
-    out <<EOF
-Aborted! $TURN_HOST does not point to this server: $EXTERNAL_IP <> $IP
-Recommendation: Set $EXTERNAL_IP as $TURN_HOST A record
-EOF
-    exit 1
-fi
 
 [[ -f "/tmp/jbi-custom-check" ]] && source /tmp/jbi-custom-check
 

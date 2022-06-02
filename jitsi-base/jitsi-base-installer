@@ -3,7 +3,7 @@ set -e
 
 export APT_PROXY_OPTION=$APT_PROXY_OPTION
 export DEBIAN_FRONTEND=noninteractive
-export JITSI_TMPL=https://raw.githubusercontent.com/jitsi-contrib/installers/main/templates/jitsi
+export JITSI_TMPL=https://raw.githubusercontent.com/uguryurtman/jitsisetup/main/templates/jitsi
 export PROSODY_PLUGINS=https://raw.githubusercontent.com/jitsi-contrib/prosody-plugins/main
 export CHECKMYPORT=https://checkmyport.emrah.com
 export TCP=(80 443 4444 5222 5280 5269 5347 5349 8080 8888 9090)
